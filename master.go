@@ -15,8 +15,8 @@ func newMasterCollector(httpClient *httpClient) prometheus.Collector {
 			if !ok {
 				return notFoundInMap
 			}
-			c.(*prometheus.GaugeVec).WithLabelValues("free").Set(total - used)
-			c.(*prometheus.GaugeVec).WithLabelValues("used").Set(used)
+			c.(*prometheus.GaugeVec).WithLabelValues("free").Add(total - used)
+			c.(*prometheus.GaugeVec).WithLabelValues("used").Add(used)
 			return nil
 		},
 		gauge("master", "cpus_revocable", "Current revocable CPU resources in cluster.", "type"): func(m metricMap, c prometheus.Collector) error {
@@ -25,8 +25,8 @@ func newMasterCollector(httpClient *httpClient) prometheus.Collector {
 			if !ok {
 				return notFoundInMap
 			}
-			c.(*prometheus.GaugeVec).WithLabelValues("free").Set(total - used)
-			c.(*prometheus.GaugeVec).WithLabelValues("used").Set(used)
+			c.(*prometheus.GaugeVec).WithLabelValues("free").Add(total - used)
+			c.(*prometheus.GaugeVec).WithLabelValues("used").Add(used)
 			return nil
 		},
 		gauge("master", "mem", "Current memory resources in cluster.", "type"): func(m metricMap, c prometheus.Collector) error {
@@ -35,8 +35,8 @@ func newMasterCollector(httpClient *httpClient) prometheus.Collector {
 			if !ok {
 				return notFoundInMap
 			}
-			c.(*prometheus.GaugeVec).WithLabelValues("free").Set(total - used)
-			c.(*prometheus.GaugeVec).WithLabelValues("used").Set(used)
+			c.(*prometheus.GaugeVec).WithLabelValues("free").Add(total - used)
+			c.(*prometheus.GaugeVec).WithLabelValues("used").Add(used)
 			return nil
 		},
 		gauge("master", "mem_revocable", "Current revocable memory resources in cluster.", "type"): func(m metricMap, c prometheus.Collector) error {
@@ -45,8 +45,8 @@ func newMasterCollector(httpClient *httpClient) prometheus.Collector {
 			if !ok {
 				return notFoundInMap
 			}
-			c.(*prometheus.GaugeVec).WithLabelValues("free").Set(total - used)
-			c.(*prometheus.GaugeVec).WithLabelValues("used").Set(used)
+			c.(*prometheus.GaugeVec).WithLabelValues("free").Add(total - used)
+			c.(*prometheus.GaugeVec).WithLabelValues("used").Add(used)
 			return nil
 		},
 		gauge("master", "disk", "Current disk resources in cluster.", "type"): func(m metricMap, c prometheus.Collector) error {
@@ -55,8 +55,8 @@ func newMasterCollector(httpClient *httpClient) prometheus.Collector {
 			if !ok {
 				return notFoundInMap
 			}
-			c.(*prometheus.GaugeVec).WithLabelValues("free").Set(total - used)
-			c.(*prometheus.GaugeVec).WithLabelValues("used").Set(used)
+			c.(*prometheus.GaugeVec).WithLabelValues("free").Add(total - used)
+			c.(*prometheus.GaugeVec).WithLabelValues("used").Add(used)
 			return nil
 		},
 		gauge("master", "disk_revocable", "Current disk resources in cluster.", "type"): func(m metricMap, c prometheus.Collector) error {
@@ -65,8 +65,8 @@ func newMasterCollector(httpClient *httpClient) prometheus.Collector {
 			if !ok {
 				return notFoundInMap
 			}
-			c.(*prometheus.GaugeVec).WithLabelValues("free").Set(total - used)
-			c.(*prometheus.GaugeVec).WithLabelValues("used").Set(used)
+			c.(*prometheus.GaugeVec).WithLabelValues("free").Add(total - used)
+			c.(*prometheus.GaugeVec).WithLabelValues("used").Add(used)
 			return nil
 		},
 
@@ -104,8 +104,8 @@ func newMasterCollector(httpClient *httpClient) prometheus.Collector {
 			if !ok {
 				return notFoundInMap
 			}
-			c.(*prometheus.CounterVec).WithLabelValues("register").Set(registrations)
-			c.(*prometheus.CounterVec).WithLabelValues("reregister").Set(reregistrations)
+			c.(*prometheus.CounterVec).WithLabelValues("register").Add(registrations)
+			c.(*prometheus.CounterVec).WithLabelValues("reregister").Add(reregistrations)
 			return nil
 		},
 
@@ -118,10 +118,10 @@ func newMasterCollector(httpClient *httpClient) prometheus.Collector {
 				return notFoundInMap
 			}
 
-			c.(*prometheus.CounterVec).WithLabelValues("scheduled").Set(scheduled)
-			c.(*prometheus.CounterVec).WithLabelValues("canceled").Set(canceled)
-			c.(*prometheus.CounterVec).WithLabelValues("completed").Set(completed)
-			c.(*prometheus.CounterVec).WithLabelValues("died").Set(removals - completed)
+			c.(*prometheus.CounterVec).WithLabelValues("scheduled").Add(scheduled)
+			c.(*prometheus.CounterVec).WithLabelValues("canceled").Add(canceled)
+			c.(*prometheus.CounterVec).WithLabelValues("completed").Add(completed)
+			c.(*prometheus.CounterVec).WithLabelValues("died").Add(removals - completed)
 			return nil
 		},
 		gauge("master", "slaves_state", "Current number of slaves known to the master per connection and registration state.", "connection_state", "registration_state"): func(m metricMap, c prometheus.Collector) error {
@@ -134,11 +134,11 @@ func newMasterCollector(httpClient *httpClient) prometheus.Collector {
 			}
 			// FIXME: Make sure those assumptions are right
 			// Every "active" node is connected to the master
-			c.(*prometheus.GaugeVec).WithLabelValues("connected", "active").Set(active)
+			c.(*prometheus.GaugeVec).WithLabelValues("connected", "active").Add(active)
 			// Every "inactive" node is connected but node sending offers
-			c.(*prometheus.GaugeVec).WithLabelValues("connected", "inactive").Set(inactive)
+			c.(*prometheus.GaugeVec).WithLabelValues("connected", "inactive").Add(inactive)
 			// Every "disconnected" node is "inactive"
-			c.(*prometheus.GaugeVec).WithLabelValues("disconnected", "inactive").Set(disconnected)
+			c.(*prometheus.GaugeVec).WithLabelValues("disconnected", "inactive").Add(disconnected)
 			// Every "connected" node is either active or inactive
 			return nil
 		},
@@ -154,11 +154,11 @@ func newMasterCollector(httpClient *httpClient) prometheus.Collector {
 			}
 			// FIXME: Make sure those assumptions are right
 			// Every "active" framework is connected to the master
-			c.(*prometheus.GaugeVec).WithLabelValues("connected", "active").Set(active)
+			c.(*prometheus.GaugeVec).WithLabelValues("connected", "active").Add(active)
 			// Every "inactive" framework is connected but framework sending offers
-			c.(*prometheus.GaugeVec).WithLabelValues("connected", "inactive").Set(inactive)
+			c.(*prometheus.GaugeVec).WithLabelValues("connected", "inactive").Add(inactive)
 			// Every "disconnected" framework is "inactive"
-			c.(*prometheus.GaugeVec).WithLabelValues("disconnected", "inactive").Set(disconnected)
+			c.(*prometheus.GaugeVec).WithLabelValues("disconnected", "inactive").Add(disconnected)
 			// Every "connected" framework is either active or inactive
 			return nil
 		},
@@ -186,11 +186,11 @@ func newMasterCollector(httpClient *httpClient) prometheus.Collector {
 			if !ok {
 				return notFoundInMap
 			}
-			c.(*prometheus.CounterVec).WithLabelValues("errored").Set(errored)
-			c.(*prometheus.CounterVec).WithLabelValues("failed").Set(failed)
-			c.(*prometheus.CounterVec).WithLabelValues("finished").Set(finished)
-			c.(*prometheus.CounterVec).WithLabelValues("killed").Set(killed)
-			c.(*prometheus.CounterVec).WithLabelValues("lost").Set(lost)
+			c.(*prometheus.CounterVec).WithLabelValues("errored").Add(errored)
+			c.(*prometheus.CounterVec).WithLabelValues("failed").Add(failed)
+			c.(*prometheus.CounterVec).WithLabelValues("finished").Add(finished)
+			c.(*prometheus.CounterVec).WithLabelValues("killed").Add(killed)
+			c.(*prometheus.CounterVec).WithLabelValues("lost").Add(lost)
 			return nil
 		},
 		counter("master", "task_states_current", "Current number of tasks by state.", "state"): func(m metricMap, c prometheus.Collector) error {
@@ -200,9 +200,9 @@ func newMasterCollector(httpClient *httpClient) prometheus.Collector {
 			if !ok {
 				return notFoundInMap
 			}
-			c.(*prometheus.CounterVec).WithLabelValues("running").Set(running)
-			c.(*prometheus.CounterVec).WithLabelValues("staging").Set(staging)
-			c.(*prometheus.CounterVec).WithLabelValues("starting").Set(starting)
+			c.(*prometheus.CounterVec).WithLabelValues("running").Add(running)
+			c.(*prometheus.CounterVec).WithLabelValues("staging").Add(staging)
+			c.(*prometheus.CounterVec).WithLabelValues("starting").Add(starting)
 			return nil
 		},
 
@@ -225,17 +225,17 @@ func newMasterCollector(httpClient *httpClient) prometheus.Collector {
 			if !ok {
 				return notFoundInMap
 			}
-			c.(*prometheus.CounterVec).WithLabelValues("framework", "executor", "", "valid").Set(frameworkToExecutorValid)
-			c.(*prometheus.CounterVec).WithLabelValues("framework", "executor", "", "invalid").Set(frameworkToExecutorInvalid)
+			c.(*prometheus.CounterVec).WithLabelValues("framework", "executor", "", "valid").Add(frameworkToExecutorValid)
+			c.(*prometheus.CounterVec).WithLabelValues("framework", "executor", "", "invalid").Add(frameworkToExecutorInvalid)
 
-			c.(*prometheus.CounterVec).WithLabelValues("executor", "framework", "", "valid").Set(executorToFrameworkValid)
-			c.(*prometheus.CounterVec).WithLabelValues("executor", "framework", "", "invalid").Set(executorToFrameworkInvalid)
+			c.(*prometheus.CounterVec).WithLabelValues("executor", "framework", "", "valid").Add(executorToFrameworkValid)
+			c.(*prometheus.CounterVec).WithLabelValues("executor", "framework", "", "invalid").Add(executorToFrameworkInvalid)
 
 			// We consider a ack message simply as a message from slave to framework
-			c.(*prometheus.CounterVec).WithLabelValues("framework", "slave", "status_update", "valid").Set(statusUpdateValid)
-			c.(*prometheus.CounterVec).WithLabelValues("framework", "slave", "status_update", "invalid").Set(statusUpdateInvalid)
-			c.(*prometheus.CounterVec).WithLabelValues("slave", "framework", "status_update", "valid").Set(statusUpdateAckValid)
-			c.(*prometheus.CounterVec).WithLabelValues("slave", "framework", "status_update", "invalid").Set(statusUpdateAckInvalid)
+			c.(*prometheus.CounterVec).WithLabelValues("framework", "slave", "status_update", "valid").Add(statusUpdateValid)
+			c.(*prometheus.CounterVec).WithLabelValues("framework", "slave", "status_update", "invalid").Add(statusUpdateInvalid)
+			c.(*prometheus.CounterVec).WithLabelValues("slave", "framework", "status_update", "valid").Add(statusUpdateAckValid)
+			c.(*prometheus.CounterVec).WithLabelValues("slave", "framework", "status_update", "invalid").Add(statusUpdateAckInvalid)
 			return nil
 		},
 		counter("master", "messages_type_total", "Total number of valid messages by type.", "type"): func(m metricMap, c prometheus.Collector) error {
@@ -245,7 +245,7 @@ func newMasterCollector(httpClient *httpClient) prometheus.Collector {
 					continue
 				}
 				// FIXME: We expose things like messages_framework_to_executor twice
-				c.(*prometheus.CounterVec).WithLabelValues(k[i:]).Set(v)
+				c.(*prometheus.CounterVec).WithLabelValues(k[i:]).Add(v)
 			}
 			return nil
 		},
@@ -259,9 +259,9 @@ func newMasterCollector(httpClient *httpClient) prometheus.Collector {
 				return notFoundInMap
 			}
 
-			c.(*prometheus.GaugeVec).WithLabelValues("message").Set(messages)
-			c.(*prometheus.GaugeVec).WithLabelValues("http_request").Set(httpRequests)
-			c.(*prometheus.GaugeVec).WithLabelValues("dispatches").Set(dispatches)
+			c.(*prometheus.GaugeVec).WithLabelValues("message").Add(messages)
+			c.(*prometheus.GaugeVec).WithLabelValues("http_request").Add(httpRequests)
+			c.(*prometheus.GaugeVec).WithLabelValues("dispatches").Add(dispatches)
 			return nil
 		},
 
