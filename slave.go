@@ -119,7 +119,7 @@ func newSlaveCollector(httpClient *httpClient) prometheus.Collector {
 			if !ok {
 				return notFoundInMap
 			}
-			c.(prometheus.Gauge).Set(active)
+			c.(prometheus.Gauge).Add(active)
 			return nil
 		},
 		prometheus.NewCounter(prometheus.CounterOpts{
@@ -132,7 +132,7 @@ func newSlaveCollector(httpClient *httpClient) prometheus.Collector {
 			if !ok {
 				return notFoundInMap
 			}
-			c.(prometheus.Counter).Set(terminated)
+			c.(prometheus.Counter).Add(terminated)
 			return nil
 		},
 		prometheus.NewCounter(prometheus.CounterOpts{
@@ -145,7 +145,7 @@ func newSlaveCollector(httpClient *httpClient) prometheus.Collector {
 			if !ok {
 				return notFoundInMap
 			}
-			c.(prometheus.Counter).Set(preempted)
+			c.(prometheus.Counter).Add(preempted)
 			return nil
 		},
 

@@ -17,4 +17,4 @@ RUN apk --update add ca-certificates \
 
 USER exporter
 
-ENTRYPOINT [ "/bin/mesos-exporter" ]
+ENTRYPOINT [ "/bin/mesos-exporter"]
