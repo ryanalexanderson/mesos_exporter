@@ -13,8 +13,8 @@ func newSlaveCollector(httpClient *httpClient) prometheus.Collector {
 			if !ok {
 				return notFoundInMap
 			}
-			c.(*prometheus.GaugeVec).WithLabelValues("free").Set(total - used)
-			c.(*prometheus.GaugeVec).WithLabelValues("used").Set(used)
+			c.(*prometheus.GaugeVec).WithLabelValues("free").Add(total - used)
+			c.(*prometheus.GaugeVec).WithLabelValues("used").Add(used)
 			return nil
 		},
 		gauge("slave", "cpus_revocable", "Current revocable CPU resources in cluster.", "type"): func(m metricMap, c prometheus.Collector) error {
@@ -23,8 +23,8 @@ func newSlaveCollector(httpClient *httpClient) prometheus.Collector {
 			if !ok {
 				return notFoundInMap
 			}
-			c.(*prometheus.GaugeVec).WithLabelValues("free").Set(total - used)
-			c.(*prometheus.GaugeVec).WithLabelValues("used").Set(used)
+			c.(*prometheus.GaugeVec).WithLabelValues("free").Add(total - used)
+			c.(*prometheus.GaugeVec).WithLabelValues("used").Add(used)
 			return nil
 		},
 		gauge("slave", "mem", "Current memory resources in cluster.", "type"): func(m metricMap, c prometheus.Collector) error {
@@ -33,8 +33,8 @@ func newSlaveCollector(httpClient *httpClient) prometheus.Collector {
 			if !ok {
 				return notFoundInMap
 			}
-			c.(*prometheus.GaugeVec).WithLabelValues("free").Set(total - used)
-			c.(*prometheus.GaugeVec).WithLabelValues("used").Set(used)
+			c.(*prometheus.GaugeVec).WithLabelValues("free").Add(total - used)
+			c.(*prometheus.GaugeVec).WithLabelValues("used").Add(used)
 			return nil
 		},
 		gauge("slave", "mem_revocable", "Current revocable memory resources in cluster.", "type"): func(m metricMap, c prometheus.Collector) error {
@@ -43,8 +43,8 @@ func newSlaveCollector(httpClient *httpClient) prometheus.Collector {
 			if !ok {
 				return notFoundInMap
 			}
-			c.(*prometheus.GaugeVec).WithLabelValues("free").Set(total - used)
-			c.(*prometheus.GaugeVec).WithLabelValues("used").Set(used)
+			c.(*prometheus.GaugeVec).WithLabelValues("free").Add(total - used)
+			c.(*prometheus.GaugeVec).WithLabelValues("used").Add(used)
 			return nil
 		},
 		gauge("slave", "disk", "Current disk resources in cluster.", "type"): func(m metricMap, c prometheus.Collector) error {
@@ -53,8 +53,8 @@ func newSlaveCollector(httpClient *httpClient) prometheus.Collector {
 			if !ok {
 				return notFoundInMap
 			}
-			c.(*prometheus.GaugeVec).WithLabelValues("free").Set(total - used)
-			c.(*prometheus.GaugeVec).WithLabelValues("used").Set(used)
+			c.(*prometheus.GaugeVec).WithLabelValues("free").Add(total - used)
+			c.(*prometheus.GaugeVec).WithLabelValues("used").Add(used)
 			return nil
 		},
 		gauge("slave", "disk_revocable", "Current disk resources in cluster.", "type"): func(m metricMap, c prometheus.Collector) error {
@@ -63,8 +63,8 @@ func newSlaveCollector(httpClient *httpClient) prometheus.Collector {
 			if !ok {
 				return notFoundInMap
 			}
-			c.(*prometheus.GaugeVec).WithLabelValues("free").Set(total - used)
-			c.(*prometheus.GaugeVec).WithLabelValues("used").Set(used)
+			c.(*prometheus.GaugeVec).WithLabelValues("free").Add(total - used)
+			c.(*prometheus.GaugeVec).WithLabelValues("used").Add(used)
 			return nil
 		},
 
@@ -79,7 +79,7 @@ func newSlaveCollector(httpClient *httpClient) prometheus.Collector {
 			if !ok {
 				return notFoundInMap
 			}
-			c.(prometheus.Gauge).Set(registered)
+			c.(prometheus.Gauge).Add(registered)
 			return nil
 		},
 		prometheus.NewGauge(prometheus.GaugeOpts{
@@ -92,7 +92,7 @@ func newSlaveCollector(httpClient *httpClient) prometheus.Collector {
 			if !ok {
 				return notFoundInMap
 			}
-			c.(prometheus.Gauge).Set(uptime)
+			c.(prometheus.Gauge).Add(uptime)
 			return nil
 		},
 
@@ -104,9 +104,9 @@ func newSlaveCollector(httpClient *httpClient) prometheus.Collector {
 			if !ok {
 				return notFoundInMap
 			}
-			c.(*prometheus.GaugeVec).WithLabelValues("registering").Set(registering)
-			c.(*prometheus.GaugeVec).WithLabelValues("running").Set(running)
-			c.(*prometheus.GaugeVec).WithLabelValues("terminating").Set(terminating)
+			c.(*prometheus.GaugeVec).WithLabelValues("registering").Add(registering)
+			c.(*prometheus.GaugeVec).WithLabelValues("running").Add(running)
+			c.(*prometheus.GaugeVec).WithLabelValues("terminating").Add(terminating)
 			return nil
 		},
 		prometheus.NewGauge(prometheus.GaugeOpts{
@@ -159,11 +159,11 @@ func newSlaveCollector(httpClient *httpClient) prometheus.Collector {
 			if !ok {
 				return notFoundInMap
 			}
-			c.(*prometheus.CounterVec).WithLabelValues("errored").Set(errored)
-			c.(*prometheus.CounterVec).WithLabelValues("failed").Set(failed)
-			c.(*prometheus.CounterVec).WithLabelValues("finished").Set(finished)
-			c.(*prometheus.CounterVec).WithLabelValues("killed").Set(killed)
-			c.(*prometheus.CounterVec).WithLabelValues("lost").Set(lost)
+			c.(*prometheus.CounterVec).WithLabelValues("errored").Add(errored)
+			c.(*prometheus.CounterVec).WithLabelValues("failed").Add(failed)
+			c.(*prometheus.CounterVec).WithLabelValues("finished").Add(finished)
+			c.(*prometheus.CounterVec).WithLabelValues("killed").Add(killed)
+			c.(*prometheus.CounterVec).WithLabelValues("lost").Add(lost)
 			return nil
 		},
 		counter("slave", "task_states_current", "Current number of tasks by state.", "state"): func(m metricMap, c prometheus.Collector) error {
@@ -173,9 +173,9 @@ func newSlaveCollector(httpClient *httpClient) prometheus.Collector {
 			if !ok {
 				return notFoundInMap
 			}
-			c.(*prometheus.CounterVec).WithLabelValues("running").Set(running)
-			c.(*prometheus.CounterVec).WithLabelValues("staging").Set(staging)
-			c.(*prometheus.CounterVec).WithLabelValues("starting").Set(starting)
+			c.(*prometheus.CounterVec).WithLabelValues("running").Add(running)
+			c.(*prometheus.CounterVec).WithLabelValues("staging").Add(staging)
+			c.(*prometheus.CounterVec).WithLabelValues("starting").Add(starting)
 			return nil
 		},
 
@@ -192,10 +192,10 @@ func newSlaveCollector(httpClient *httpClient) prometheus.Collector {
 			if !ok {
 				return notFoundInMap
 			}
-			c.(*prometheus.CounterVec).WithLabelValues("framework", "valid").Set(frameworkMessagesValid)
-			c.(*prometheus.CounterVec).WithLabelValues("framework", "invalid").Set(frameworkMessagesInvalid)
-			c.(*prometheus.CounterVec).WithLabelValues("status", "valid").Set(statusUpdateValid)
-			c.(*prometheus.CounterVec).WithLabelValues("status", "invalid").Set(statusUpdateInvalid)
+			c.(*prometheus.CounterVec).WithLabelValues("framework", "valid").Add(frameworkMessagesValid)
+			c.(*prometheus.CounterVec).WithLabelValues("framework", "invalid").Add(frameworkMessagesInvalid)
+			c.(*prometheus.CounterVec).WithLabelValues("status", "valid").Add(statusUpdateValid)
+			c.(*prometheus.CounterVec).WithLabelValues("status", "invalid").Add(statusUpdateInvalid)
 
 			return nil
 		},
